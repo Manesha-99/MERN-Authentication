@@ -2,6 +2,7 @@ import express from "express"
 import mongoose from "mongoose"
 import cors from "cors"
 import {port , mongoDbUrl} from "./config.js"
+import userRoutes from "./routes/userRoutes.js"
 
 
 const app = express();
@@ -16,5 +17,5 @@ mongoose.connect(mongoDbUrl).then(()=>{
     console.log(error);
 })
 
-
+app.use("/user", userRoutes);
 
