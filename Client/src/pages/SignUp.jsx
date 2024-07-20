@@ -15,6 +15,7 @@ const SignUp = () => {
   const handleSubmit = async(event)=>{
     event.preventDefault();
     setLoading(true);
+    setError(false)
     const result = await fetch("/server/auth/sign_up",{
       method: 'POST',
       headers: {
@@ -23,9 +24,13 @@ const SignUp = () => {
       body: JSON.stringify(formData),
     });
     setLoading(false);
-    setError(false)
     const data = await result.json();
-    alert("User has been created..")
+    // alert("User has been created..")
+    if(data.success === false){
+      setError(true);
+      return
+    }
+    
     console.log(data); {message: "user created successfully.."};
   }
   
@@ -66,6 +71,7 @@ const SignUp = () => {
             <span className="text-blue-500">Sign In</span>
           </Link>
         </div>
+        <p className="mt-5 text-red-700">{error && "Something went wrong"}</p>
       </div>
     </div>
   );
