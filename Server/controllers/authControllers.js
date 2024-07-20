@@ -1,5 +1,6 @@
 import { userModel } from "../models/UserModel.js";
 import bcryptjs from "bcryptjs";
+import { errorhandler } from "../utils/errorhandler.js";
 
 export const test_auth = async (req, res, next) => {
   try {
@@ -20,8 +21,6 @@ export const test_auth = async (req, res, next) => {
       .status(200)
       .json({ message: "New user has been created....", user });
   } catch (error) {
-    // next(errorhandler(500, "Hikenaw mewa"));
-    console.log(error);
-    res.status(500).send({ message: error.message });
+    next(error);
   }
 };
