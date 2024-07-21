@@ -1,39 +1,39 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  
-  
-  const handleChange = (event)=>{
-    setFormData({...formData, [event.target.id]: event.target.value});
-    
-  }
+  const navigate = useNavigate();
 
-  const handleSubmit = async(event)=>{
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.id]: event.target.value });
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
-    setError(false)
-    const result = await fetch("/server/auth/sign-up",{
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData),
-    });
-    setLoading(false);
-    const data = await result.json();
-    // alert("User has been created..")
-    if(data.success === false){
-      setError(true);
-      return
+    try {
+      setLoading(true);
+      setError(false);
+      const result = await fetch("/server/auth/sign-up", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      setLoading(false);
+      const data = await result.json();
+      if (data.success === false) {
+        setError(true);
+        return;
+      }
+      navigate("/sign-in");
+    } catch (error) {
+      console.log(error);
     }
-    
-    console.log(data); {message: "user created successfully.."};
-  }
-  
+  };
 
   return (
     <div className="flex flex-col max-w-lg mx-auto">
@@ -61,7 +61,10 @@ const SignUp = () => {
             id="password"
             onChange={handleChange}
           />
-          <button className="p-3 text-white uppercase rounded-lg bg-slate-700 hover:opacity-95 disabled:opacity-80" disabled={loading}>
+          <button
+            className="p-3 text-white uppercase rounded-lg bg-slate-700 hover:opacity-95 disabled:opacity-80"
+            disabled={loading}
+          >
             {loading ? "Loading" : "Sign Up"}
           </button>
         </form>
