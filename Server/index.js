@@ -21,7 +21,7 @@ mongoose
   });
 
 app.use("/user", userRoutes);
-app.use("/auth/sign_up", authRoutes);
+app.use("/auth", authRoutes);
 
 app.use((err, req, res, next) => {
   const statuscode = err.statuscode || 500;

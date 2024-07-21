@@ -16,7 +16,7 @@ const SignUp = () => {
     event.preventDefault();
     setLoading(true);
     setError(false)
-    const result = await fetch("/server/auth/sign_up",{
+    const result = await fetch("/server/auth/sign-up",{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
